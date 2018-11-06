@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://assets/paintings/sekigahara-kassen-byōbu-zu.jpg" type="Texture" id=1]
+[ext_resource path="res://assets/paintings/starry-night.png" type="Texture" id=1]
 
-[node name="sekigahara" type="Node2D"]
+[node name="starry-night" type="Node2D"]
 
 [node name="painting" type="Sprite" parent="." index="0"]
 
