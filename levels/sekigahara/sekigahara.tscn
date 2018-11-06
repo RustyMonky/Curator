@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/paintings/sekigahara-kassen-byōbu-zu.jpg" type="Texture" id=1]
+[ext_resource path="res://entities/player/player.tscn" type="PackedScene" id=2]
+
+[node name="sekigahara" type="Node2D" index="0"]
+
+[node name="painting" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 1 )
+centered = false
+_sections_unfolded = [ "Offset" ]
+
+[node name="player" parent="." index="1" instance=ExtResource( 2 )]
+
+position = Vector2( 200, 110 )
+
+
