@@ -1,7 +1,10 @@
 extends Area2D
 
+onready var tween = $portalTween
+
 func _ready():
-	pass
+	tween.interpolate_property(self, "rotation", 0, 360, 50, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.start()
 
 # Signals
 

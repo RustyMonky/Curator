@@ -8,7 +8,7 @@
 custom_solver_bias = 0.0
 radius = 10.0
 
-[node name="portal" type="Area2D"]
+[node name="portal" type="Area2D" index="0"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -22,10 +22,20 @@ script = ExtResource( 1 )
 [node name="portalSprite" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="portalShape" type="CollisionShape2D" parent="." index="1"]
 
 shape = SubResource( 1 )
+
+[node name="portalTween" type="Tween" parent="." index="2"]
+
+repeat = true
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = true
+playback/speed = 1.0
 
 [connection signal="area_entered" from="." to="." method="_on_portal_area_entered"]
 
