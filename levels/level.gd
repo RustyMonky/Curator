@@ -1,5 +1,7 @@
 extends Node2D
 
+var portalPosition = Vector2()
+
 onready var painting = $painting
 onready var playerInstance = load("res://entities/player/player.tscn").instance()
 
@@ -13,3 +15,4 @@ func openPortal():
 	var portalInstance = load("res://entities/portal/portal.tscn").instance()
 	self.add_child(portalInstance)
 	portalInstance.position = Vector2(painting.get_texture().get_size().x / 2, painting.get_texture().get_size().y / 2)
+	portalPosition = portalInstance.position

@@ -4,6 +4,7 @@ enum STATE { REST, MOVING, DEAD }
 
 const SPEED = 2
 
+onready var arrow = $arrow
 onready var playerAnimations = $playerAnimations
 
 var currentAnimation = "walkSide"
@@ -39,6 +40,10 @@ func _process(delta):
 		if playerAnimations.is_playing():
 			playerAnimations.stop()
 			playerAnimations.set_frame(0)
+
+	if get_parent().has_node("portal"):
+		arrow.set_visible(true)
+		arrow.rotation = (get_parent().portalPosition - arrow.global_position).angle()
 
 func move_self():
 	currentState = STATE.MOVING
