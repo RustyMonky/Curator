@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://entities/player/player.gd" type="Script" id=1]
+[ext_resource path="res://entities/npc/demon/demon.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/player/horizontal/playerHoriz1.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/player/horizontal/playerHoriz2.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/player/horizontal/playerHoriz3.png" type="Texture" id=4]
@@ -16,7 +16,6 @@
 [ext_resource path="res://assets/sprites/player/horizontal/playerHoriz13.png" type="Texture" id=14]
 [ext_resource path="res://assets/sprites/player/horizontal/playerHoriz14.png" type="Texture" id=15]
 [ext_resource path="res://assets/sprites/player/horizontal/playerHoriz15.png" type="Texture" id=16]
-[ext_resource path="res://assets/sprites/ui/arrow.png" type="Texture" id=17]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -27,54 +26,19 @@ animations = [ {
 "speed": 30.0
 } ]
 
-[node name="player" type="KinematicBody2D"]
+[node name="demon" type="KinematicBody2D" index="0"]
 
+scale = Vector2( 2, 2 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="playerAnimations" type="AnimatedSprite" parent="." index="0"]
+[node name="demonAnimations" type="AnimatedSprite" parent="." index="0"]
 
 frames = SubResource( 1 )
 animation = "walkSide"
-
-[node name="playerCamera" type="Camera2D" parent="." index="1"]
-
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 0.25, 0.25 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
-drag_margin_h_enabled = false
-drag_margin_v_enabled = false
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
-editor_draw_screen = true
-editor_draw_limits = false
-editor_draw_drag_margin = false
-
-[node name="playerPolygon" type="CollisionPolygon2D" parent="." index="2"]
-
-build_mode = 0
-polygon = PoolVector2Array( -0.0947952, -10.0914, 6.13647, -9.98983, 7.52495, 11.0745, -7.24043, 11.0745, -6.8679, -10.0576 )
-
-[node name="arrow" type="Sprite" parent="." index="3"]
-
-visible = false
-position = Vector2( 20, 0 )
-texture = ExtResource( 17 )
-_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 
