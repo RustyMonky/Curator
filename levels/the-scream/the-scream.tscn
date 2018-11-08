@@ -3,7 +3,7 @@
 [ext_resource path="res://levels/the-scream/the-scream.gd" type="Script" id=1]
 [ext_resource path="res://assets/paintings/the-scream.png" type="Texture" id=2]
 
-[node name="the-scream" type="Node2D" index="0"]
+[node name="the-scream" type="Node2D"]
 
 script = ExtResource( 1 )
 
