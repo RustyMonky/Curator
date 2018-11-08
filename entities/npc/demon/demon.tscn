@@ -1,32 +1,15 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://entities/npc/demon/demon.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz1.png" type="Texture" id=2]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz2.png" type="Texture" id=3]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz3.png" type="Texture" id=4]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz4.png" type="Texture" id=5]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz5.png" type="Texture" id=6]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz6.png" type="Texture" id=7]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz7.png" type="Texture" id=8]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz8.png" type="Texture" id=9]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz9.png" type="Texture" id=10]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz10.png" type="Texture" id=11]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz11.png" type="Texture" id=12]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz12.png" type="Texture" id=13]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz13.png" type="Texture" id=14]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz14.png" type="Texture" id=15]
-[ext_resource path="res://assets/sprites/player/horizontal/playerHoriz15.png" type="Texture" id=16]
+[ext_resource path="res://assets/spriteFrames/player.tres" type="SpriteFrames" id=2]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="CapsuleShape2D" id=1]
 
-animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ) ],
-"loop": true,
-"name": "walkSide",
-"speed": 30.0
-} ]
+custom_solver_bias = 0.0
+radius = 5.0
+height = 10.0
 
-[node name="demon" type="KinematicBody2D"]
+[node name="demon" type="KinematicBody2D" index="0"]
 
 scale = Vector2( 2, 2 )
 input_pickable = false
@@ -38,7 +21,22 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="demonAnimations" type="AnimatedSprite" parent="." index="0"]
 
-frames = SubResource( 1 )
+frames = ExtResource( 2 )
 animation = "walkSide"
+
+[node name="demonRay" type="RayCast2D" parent="." index="1"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 5.5, 0 )
+collision_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="demonShape" type="CollisionShape2D" parent="." index="2"]
+
+shape = SubResource( 1 )
+disabled = true
+
+[connection signal="animation_finished" from="demonAnimations" to="." method="_on_demonAnimations_animation_finished"]
 
 
