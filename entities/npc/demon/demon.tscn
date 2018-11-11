@@ -35,8 +35,9 @@ _sections_unfolded = [ "Transform" ]
 [node name="demonShape" type="CollisionShape2D" parent="." index="2"]
 
 shape = SubResource( 1 )
-disabled = true
 
 [connection signal="animation_finished" from="demonAnimations" to="." method="_on_demonAnimations_animation_finished"]
+
+[connection signal="frame_changed" from="demonAnimations" to="." method="_on_demonAnimations_frame_changed"]
 
 

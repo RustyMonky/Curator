@@ -8,6 +8,7 @@ onready var animations = $demonAnimations
 onready var player = get_parent().get_node("player")
 onready var ray = $demonRay
 
+var collisionObject = null
 var currentState = STATE.CHASE
 var direction = Vector2()
 
@@ -36,7 +37,7 @@ func _process(delta):
 		else:
 			ray.rotation_degrees = 0
 
-		self.move_and_collide(self.direction.normalized() * SPEED * delta)
+		collisionObject = self.move_and_collide(self.direction.normalized() * SPEED * delta)
 
 		if ray.is_colliding() && ray.get_collider() == player:
 			currentState = STATE.ATTACK
@@ -50,3 +51,8 @@ func _on_demonAnimations_animation_finished():
 		currentState = STATE.CHASE
 		animations.set_animation("walkSide")
 		animations.play()
+
+func _on_demonAnimations_frame_changed():
+	# Determines if player stands close enough to demon's attack animation to take damage
+	if currentState == STATE.ATTACK && collisionObject && collisionObject.collider == player && animations.get_frame() >= 5:
+		print("Hit!")
