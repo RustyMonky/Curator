@@ -55,4 +55,4 @@ func _on_demonAnimations_animation_finished():
 func _on_demonAnimations_frame_changed():
 	# Determines if player stands close enough to demon's attack animation to take damage
 	if currentState == STATE.ATTACK && collisionObject && collisionObject.collider == player && animations.get_frame() >= 5:
-		print("Hit!")
+		player.takeDamage()
