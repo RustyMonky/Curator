@@ -3,13 +3,14 @@
 [ext_resource path="res://entities/npc/demon/demon.gd" type="Script" id=1]
 [ext_resource path="res://assets/spriteFrames/player.tres" type="SpriteFrames" id=2]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 5.0
-height = 10.0
+extents = Vector2( 4.14786, 8.24904 )
 
-[node name="demon" type="KinematicBody2D"]
+[node name="demon" type="KinematicBody2D" groups=[
+"entities",
+]]
 
 scale = Vector2( 2, 2 )
 input_pickable = false

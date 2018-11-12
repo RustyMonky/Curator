@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://entities/npc/samurai/samurai.gd" type="Script" id=1]
+[ext_resource path="res://assets/spriteFrames/player.tres" type="SpriteFrames" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 3.95, 8.14375 )
+
+[node name="samurai" type="KinematicBody2D" groups=[
+"entities",
+]]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+
+[node name="samuraiAnimations" type="AnimatedSprite" parent="." index="0"]
+
+frames = ExtResource( 2 )
+animation = "walkSide"
+
+[node name="samuraiCollider" type="CollisionShape2D" parent="." index="1"]
+
+shape = SubResource( 1 )
+
+[node name="samuraiRay" type="RayCast2D" parent="." index="2"]
+
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 10, 0 )
+collision_mask = 1
+
+[connection signal="animation_finished" from="samuraiAnimations" to="." method="_on_samuraiAnimations_animation_finished"]
+
+[connection signal="frame_changed" from="samuraiAnimations" to="." method="_on_samuraiAnimations_frame_changed"]
+
+

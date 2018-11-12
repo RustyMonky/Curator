@@ -3,7 +3,7 @@
 [ext_resource path="res://levels/sekigahara/sekigahara.gd" type="Script" id=1]
 [ext_resource path="res://assets/paintings/sekigahara-kassen-byōbu-zu.jpg" type="Texture" id=2]
 
-[node name="sekigahara" type="Node2D"]
+[node name="sekigahara" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -12,5 +12,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 centered = false
 _sections_unfolded = [ "Offset" ]
+
+[node name="samurai" type="Node2D" parent="." index="1"]
 
 

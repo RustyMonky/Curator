@@ -14,9 +14,9 @@ var direction = Vector2()
 
 func _ready():
 	animations.play()
-	set_process(true)
+	set_physics_process(true)
 
-func _process(delta):
+func _physics_process(delta):
 	if currentState == STATE.CHASE:
 		if self.global_position.y < player.position.y:
 			self.direction.y = 1
@@ -39,7 +39,7 @@ func _process(delta):
 
 		collisionObject = self.move_and_collide(self.direction.normalized() * SPEED * delta)
 
-		if ray.is_colliding() && ray.get_collider() == player:
+		if ray.is_colliding() && ray.get_collider().is_in_group("entities"):
 			currentState = STATE.ATTACK
 			animations.set_animation("smash")
 			animations.play()
@@ -54,5 +54,5 @@ func _on_demonAnimations_animation_finished():
 
 func _on_demonAnimations_frame_changed():
 	# Determines if player stands close enough to demon's attack animation to take damage
-	if currentState == STATE.ATTACK && collisionObject && collisionObject.collider == player && animations.get_frame() >= 5:
-		player.takeDamage()
+	if currentState == STATE.ATTACK && collisionObject && collisionObject.collider.is_in_group("entities") && animations.get_frame() >= 5:
+		collisionObject.collider.takeDamage()
