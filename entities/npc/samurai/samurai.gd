@@ -42,6 +42,8 @@ func _physics_process(delta):
 			elif !animations.flip_h && target.global_position.x < self.global_position.x:
 				animations.flip_h = true
 				self.direction.x = -1
+			elif self.global_position.x == target.global_position.x:
+				self.direction.x = 0
 
 			if animations.flip_h == true:
 				ray.rotation_degrees = 180
@@ -93,5 +95,5 @@ func _on_samuraiAnimations_frame_changed():
 		ray.get_collider().takeDamage()
 
 func _on_samuraiDetectArea_body_entered(body):
-	if !body.is_in_group(team):
+	if !body.is_in_group(team) && !target:
 		target = body

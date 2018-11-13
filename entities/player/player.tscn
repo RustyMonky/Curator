@@ -11,7 +11,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 4.10625, 8.1125 )
 
-[node name="player" type="KinematicBody2D" index="0" groups=[
+[node name="player" type="KinematicBody2D" groups=[
 "entities",
 "player",
 ]]
@@ -34,7 +34,7 @@ _sections_unfolded = [ "Visibility" ]
 anchor_mode = 1
 rotating = false
 current = true
-zoom = Vector2( 0.5, 0.5 )
+zoom = Vector2( 0.35, 0.35 )
 limit_left = -10000000
 limit_top = -10000000
 limit_right = 10000000

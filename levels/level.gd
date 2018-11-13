@@ -10,7 +10,7 @@ var startEvent = false
 
 func _ready():
 	self.add_child(playerInstance)
-	playerInstance.position = Vector2(64, painting.get_texture().get_size().y / 2)
+	playerInstance.position = Vector2(16, painting.get_texture().get_size().y - 16)
 
 	if gameData.hasDemon:
 		var demonInstance = load("res://entities/npc/demon/demon.tscn").instance()

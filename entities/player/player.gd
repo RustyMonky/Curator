@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 enum STATE { TEXT, REST, MOVING, HURT, DEAD }
 
-const SPEED = 2
+const SPEED = 64
 
 onready var animator = $playerAnimator
 onready var arrow = $arrow
@@ -37,18 +37,18 @@ func _process(delta):
 	if currentState == STATE.MOVING || currentState == STATE.REST:
 		if Input.is_action_pressed("ui_up"):
 			self.direction = Vector2(0, -1)
-			moveSelf()
+			moveSelf(delta)
 		elif Input.is_action_pressed("ui_down"):
 			self.direction = Vector2(0, 1)
-			moveSelf()
+			moveSelf(delta)
 		elif Input.is_action_pressed("ui_left"):
 			self.direction = Vector2(-1, 0)
 			playerAnimations.flip_h = true
-			moveSelf()
+			moveSelf(delta)
 		elif Input.is_action_pressed("ui_right"):
 			self.direction = Vector2(1, 0)
 			playerAnimations.flip_h = false
-			moveSelf()
+			moveSelf(delta)
 
 	if get_parent().has_node("portal"):
 		arrow.set_visible(true)
@@ -56,9 +56,9 @@ func _process(delta):
 
 # moveSelf
 # Moves the player and updates their current state
-func moveSelf():
+func moveSelf(delta):
 	currentState = STATE.MOVING
-	var collision = self.move_and_collide(self.direction * SPEED)
+	var collision = self.move_and_collide(self.direction * SPEED * delta)
 	playerAnimations.play(currentAnimation)
 
 # takeDamage
