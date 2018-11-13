@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum STATE { TEXT, REST, MOVING, DEAD }
+enum STATE { TEXT, REST, MOVING, HURT, DEAD }
 
 const SPEED = 2
 
@@ -25,6 +25,8 @@ func _input(event):
 	if currentState == STATE.MOVING:
 		if event.is_action_released("ui_up") || event.is_action_released("ui_down") || event.is_action_released("ui_left") || event.is_action_released("ui_right"):
 			currentState = STATE.REST
+			playerAnimations.stop()
+			playerAnimations.set_frame(0)
 
 	elif currentState == STATE.TEXT:
 		if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
@@ -48,11 +50,6 @@ func _process(delta):
 			playerAnimations.flip_h = false
 			moveSelf()
 
-	elif currentState == STATE.REST:
-		if playerAnimations.is_playing():
-			playerAnimations.stop()
-			playerAnimations.set_frame(0)
-
 	if get_parent().has_node("portal"):
 		arrow.set_visible(true)
 		arrow.rotation = (get_parent().portalPosition - arrow.global_position).angle()
@@ -71,14 +68,23 @@ func takeDamage():
 		return
 
 	self.hp -= 1
+
 	if hp <= 0:
 		sceneManager.goto_scene("res://levels/gameover/gameover.tscn")
 	else:
 		animator.play("invulnerabilityFrames")
 		isInvulerable = true
+		currentAnimation = "hurt"
+		currentState = STATE.HURT
+		playerAnimations.play(currentAnimation)
 
 # Signals
 
 func _on_playerAnimator_animation_finished(anim_name):
 	if anim_name == "invulnerabilityFrames":
 		isInvulerable = false
+
+func _on_playerAnimations_animation_finished():
+	if currentState == STATE.HURT:
+		currentAnimation = "walkSide"
+		currentState = STATE.REST

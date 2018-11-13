@@ -37,8 +37,17 @@ _sections_unfolded = [ "Transform" ]
 
 shape = SubResource( 1 )
 
+[node name="demonDelay" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 0.25
+one_shot = false
+autostart = false
+
 [connection signal="animation_finished" from="demonAnimations" to="." method="_on_demonAnimations_animation_finished"]
 
 [connection signal="frame_changed" from="demonAnimations" to="." method="_on_demonAnimations_frame_changed"]
+
+[connection signal="timeout" from="demonDelay" to="." method="_on_demonDelay_timeout"]
 
 

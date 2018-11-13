@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://entities/npc/samurai/samurai.gd" type="Script" id=1]
 [ext_resource path="res://assets/spriteFrames/player.tres" type="SpriteFrames" id=2]
@@ -8,7 +8,12 @@
 custom_solver_bias = 0.0
 extents = Vector2( 3.95, 8.14375 )
 
-[node name="samurai" type="KinematicBody2D" index="0" groups=[
+[sub_resource type="CircleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 70.0
+
+[node name="samurai" type="KinematicBody2D" groups=[
 "entities",
 ]]
 
@@ -34,8 +39,24 @@ exclude_parent = true
 cast_to = Vector2( 10, 0 )
 collision_mask = 1
 
+[node name="samuraiDetectArea" type="Area2D" parent="." index="3"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="samuraiDetectShape" type="CollisionShape2D" parent="samuraiDetectArea" index="0"]
+
+shape = SubResource( 2 )
+
 [connection signal="animation_finished" from="samuraiAnimations" to="." method="_on_samuraiAnimations_animation_finished"]
 
 [connection signal="frame_changed" from="samuraiAnimations" to="." method="_on_samuraiAnimations_frame_changed"]
+
+[connection signal="body_entered" from="samuraiDetectArea" to="." method="_on_samuraiDetectArea_body_entered"]
 
 
