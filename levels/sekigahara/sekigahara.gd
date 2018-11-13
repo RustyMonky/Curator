@@ -6,12 +6,12 @@ func _ready():
 	for i in range(5):
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
 		samuraiNode.add_child(samuraiInstance)
-		samuraiInstance.position = Vector2(64, 64 * i)
+		samuraiInstance.translation = Vector3(10, 0, 1.5 * i)
+		samuraiInstance.animations.flip_h = true
 		samuraiInstance.setTeam("blue")
 
 	for i in range(5):
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
 		samuraiNode.add_child(samuraiInstance)
-		samuraiInstance.position = Vector2(painting.get_texture().get_size().x - 64, 64 * i)
-		samuraiInstance.animations.flip_h = true
+		samuraiInstance.translation = Vector3(-10, 0, 1.5 * i)
 		samuraiInstance.setTeam("red")

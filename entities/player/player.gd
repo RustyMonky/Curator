@@ -1,8 +1,8 @@
-extends KinematicBody2D
+extends KinematicBody
 
 enum STATE { REST, MOVING, DEAD }
 
-const SPEED = 2
+const SPEED = 0.05
 
 onready var animator = $playerAnimator
 onready var arrow = $arrow
@@ -10,7 +10,7 @@ onready var playerAnimations = $playerAnimations
 
 var currentAnimation = "walkSide"
 var currentState = STATE.REST
-var direction = Vector2(0, 0)
+var direction = Vector3(0, 0, 0)
 var hp = 3
 var isInvulerable = false
 
@@ -26,28 +26,27 @@ func _input(event):
 
 func _process(delta):
 	if Input.is_action_pressed("ui_up"):
-		self.direction = Vector2(0, -1)
+		self.direction = Vector3(0, 0, -1)
 		moveSelf()
 	elif Input.is_action_pressed("ui_down"):
-		self.direction = Vector2(0, 1)
+		self.direction = Vector3(0, 0, 1)
 		moveSelf()
 	elif Input.is_action_pressed("ui_left"):
-		self.direction = Vector2(-1, 0)
+		self.direction = Vector3(-1, 0, 0)
 		playerAnimations.flip_h = true
 		moveSelf()
 	elif Input.is_action_pressed("ui_right"):
-		self.direction = Vector2(1, 0)
+		self.direction = Vector3(1, 0, 0)
 		playerAnimations.flip_h = false
 		moveSelf()
 
 	if currentState == STATE.REST:
-		if playerAnimations.is_playing():
-			playerAnimations.stop()
-			playerAnimations.set_frame(0)
+		playerAnimations.stop()
+		playerAnimations.set_frame(0)
 
 	if get_parent().has_node("portal"):
 		arrow.set_visible(true)
-		arrow.rotation = (get_parent().portalPosition - arrow.global_position).angle()
+		arrow.rotation.z = self.translation.angle_to(get_parent().portalPosition - arrow.translation)
 
 # moveSelf
 # Moves the player and updates their current state

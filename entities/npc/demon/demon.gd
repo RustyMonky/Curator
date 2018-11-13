@@ -1,8 +1,8 @@
-extends KinematicBody2D
+extends KinematicBody
 
 enum STATE { ATTACK, CHASE }
 
-const SPEED = 64
+const SPEED = 0.5
 
 onready var animations = $demonAnimations
 onready var player = get_parent().get_node("player")
@@ -10,7 +10,7 @@ onready var ray = $demonRay
 
 var collisionObject = null
 var currentState = STATE.CHASE
-var direction = Vector2()
+var direction = Vector3()
 
 func _ready():
 	animations.play()
@@ -18,24 +18,24 @@ func _ready():
 
 func _physics_process(delta):
 	if currentState == STATE.CHASE:
-		if self.global_position.y < player.position.y:
-			self.direction.y = 1
-		elif self.global_position.y > player.position.y:
-			self.direction.y = -1
-		elif self.global_position.y == player.position.y:
-			self.direction.y = 0
+		if self.translation.z < player.translation.z:
+			self.direction.z = 1
+		elif self.translation.z > player.translation.z:
+			self.direction.z = -1
+		elif self.translation.z == player.translation.z:
+			self.direction.z = 0
 
-		if animations.flip_h && player.position.x > self.position.x:
+		if animations.flip_h && player.translation.x > self.translation.x:
 			animations.flip_h = false
 			self.direction.x = 1
-		elif !animations.flip_h && player.position.x < self.position.x:
+		elif !animations.flip_h && player.translation.x < self.translation.x:
 			animations.flip_h = true
 			self.direction.x = -1
 
 		if animations.flip_h == true:
-			ray.rotation_degrees = 180
+			ray.rotation.x = 180
 		else:
-			ray.rotation_degrees = 0
+			ray.rotation.x = 0
 
 		collisionObject = self.move_and_collide(self.direction.normalized() * SPEED * delta)
 
