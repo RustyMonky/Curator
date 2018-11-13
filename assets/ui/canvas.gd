@@ -19,3 +19,9 @@ func resetText():
 func setText(text):
 	textBox.show()
 	textLabel.text = text
+
+# Signals
+
+func _on_textTimer_timeout():
+	if textLabel.visible_characters != textLabel.get_total_character_count():
+		textLabel.visible_characters += 1

@@ -27,7 +27,7 @@ func _input(event):
 			currentState = STATE.REST
 
 	elif currentState == STATE.TEXT:
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
 			currentState = STATE.REST
 			canvas.resetText()
 

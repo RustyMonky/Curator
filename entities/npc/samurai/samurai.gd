@@ -15,9 +15,13 @@ var team = null
 
 func _ready():
 	set_physics_process(true)
-	animations.play()
 
 func _physics_process(delta):
+	if !get_parent().get_parent().startEvent:
+		return
+	else:
+		animations.play()
+
 	if currentState == STATE.MOVE:
 		if animations.flip_h:
 			self.direction = Vector2(-1, 0)

@@ -17,6 +17,9 @@ func _ready():
 	set_physics_process(true)
 
 func _physics_process(delta):
+	if !get_parent().startEvent:
+		return
+
 	if currentState == STATE.CHASE:
 		if self.global_position.y < player.position.y:
 			self.direction.y = 1
