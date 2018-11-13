@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://entities/player/player.gd" type="Script" id=1]
 [ext_resource path="res://assets/spriteFrames/player.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://assets/sprites/ui/arrow.png" type="Texture" id=3]
 [ext_resource path="res://assets/animations/playerInvulnerabilityFrames.tres" type="Animation" id=4]
+[ext_resource path="res://assets/ui/canvas.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -11,6 +12,7 @@ custom_solver_bias = 0.0
 extents = Vector2( 4.10625, 8.1125 )
 
 [node name="player" type="KinematicBody2D" groups=[
+"player",
 "entities",
 ]]
 
@@ -19,6 +21,7 @@ collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
+_sections_unfolded = [ "Material", "Visibility" ]
 
 [node name="playerAnimations" type="AnimatedSprite" parent="." index="0"]
 
@@ -50,6 +53,7 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
+_sections_unfolded = [ "Visibility", "Z Index" ]
 
 [node name="playerPolygon" type="CollisionShape2D" parent="." index="2"]
 
@@ -72,6 +76,8 @@ playback_speed = 1.0
 anims/invulnerabilityFrames = ExtResource( 4 )
 anims/playerInvulnerabilityFrames = ExtResource( 4 )
 blend_times = [  ]
+
+[node name="canvas" parent="." index="5" instance=ExtResource( 5 )]
 
 [connection signal="animation_finished" from="playerAnimator" to="." method="_on_playerAnimator_animation_finished"]
 

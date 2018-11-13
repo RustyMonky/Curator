@@ -37,8 +37,6 @@ playback/active = false
 playback/repeat = true
 playback/speed = 1.0
 
-[connection signal="area_entered" from="." to="." method="_on_portal_area_entered"]
-
 [connection signal="body_entered" from="." to="." method="_on_portal_body_entered"]
 
 

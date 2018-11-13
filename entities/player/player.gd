@@ -1,21 +1,23 @@
 extends KinematicBody2D
 
-enum STATE { REST, MOVING, DEAD }
+enum STATE { TEXT, REST, MOVING, DEAD }
 
 const SPEED = 2
 
 onready var animator = $playerAnimator
 onready var arrow = $arrow
+onready var canvas = $canvas
 onready var playerAnimations = $playerAnimations
 
 var currentAnimation = "walkSide"
-var currentState = STATE.REST
+var currentState = STATE.TEXT
 var direction = Vector2(0, 0)
 var hp = 3
 var isInvulerable = false
 
 func _ready():
 	animator.set_autoplay("false")
+	canvas.resetText()
 	set_process(true)
 	set_process_input(true)
 
@@ -24,23 +26,29 @@ func _input(event):
 		if event.is_action_released("ui_up") || event.is_action_released("ui_down") || event.is_action_released("ui_left") || event.is_action_released("ui_right"):
 			currentState = STATE.REST
 
-func _process(delta):
-	if Input.is_action_pressed("ui_up"):
-		self.direction = Vector2(0, -1)
-		moveSelf()
-	elif Input.is_action_pressed("ui_down"):
-		self.direction = Vector2(0, 1)
-		moveSelf()
-	elif Input.is_action_pressed("ui_left"):
-		self.direction = Vector2(-1, 0)
-		playerAnimations.flip_h = true
-		moveSelf()
-	elif Input.is_action_pressed("ui_right"):
-		self.direction = Vector2(1, 0)
-		playerAnimations.flip_h = false
-		moveSelf()
+	elif currentState == STATE.TEXT:
+		if event.is_action_pressed("ui_accept"):
+			currentState = STATE.REST
+			canvas.resetText()
 
-	if currentState == STATE.REST:
+func _process(delta):
+	if currentState == STATE.MOVING || currentState == STATE.REST:
+		if Input.is_action_pressed("ui_up"):
+			self.direction = Vector2(0, -1)
+			moveSelf()
+		elif Input.is_action_pressed("ui_down"):
+			self.direction = Vector2(0, 1)
+			moveSelf()
+		elif Input.is_action_pressed("ui_left"):
+			self.direction = Vector2(-1, 0)
+			playerAnimations.flip_h = true
+			moveSelf()
+		elif Input.is_action_pressed("ui_right"):
+			self.direction = Vector2(1, 0)
+			playerAnimations.flip_h = false
+			moveSelf()
+
+	elif currentState == STATE.REST:
 		if playerAnimations.is_playing():
 			playerAnimations.stop()
 			playerAnimations.set_frame(0)
