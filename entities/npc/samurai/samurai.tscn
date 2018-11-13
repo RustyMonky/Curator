@@ -8,7 +8,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 3.95, 8.14375 )
 
-[node name="samurai" type="KinematicBody2D" groups=[
+[node name="samurai" type="KinematicBody2D" index="0" groups=[
 "entities",
 ]]
 
@@ -21,7 +21,7 @@ script = ExtResource( 1 )
 [node name="samuraiAnimations" type="AnimatedSprite" parent="." index="0"]
 
 frames = ExtResource( 2 )
-animation = "walkSide"
+animation = "walkSwordSide"
 
 [node name="samuraiCollider" type="CollisionShape2D" parent="." index="1"]
 

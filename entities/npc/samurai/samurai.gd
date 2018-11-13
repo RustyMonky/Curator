@@ -62,7 +62,7 @@ func takeDamage():
 func _on_samuraiAnimations_animation_finished():
 	if currentState == STATE.ATTACK:
 		currentState = STATE.MOVE
-		animations.set_animation("walkSide")
+		animations.set_animation("walkSwordSide")
 		animations.play()
 
 func _on_samuraiAnimations_frame_changed():
