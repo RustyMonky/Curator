@@ -2,7 +2,7 @@ extends "res://entities/npc/npc.gd"
 
 enum STATE { MOVE, ATTACK, HURT }
 
-const SPEED = 64
+const SPEED = 48
 
 onready var animations = $samuraiAnimations
 onready var ray = $samuraiRay
@@ -60,10 +60,8 @@ func _physics_process(delta):
 
 			if ray.get_collider().is_in_group("obstacle"):
 				animations.flip_h = !animations.flip_h
-				if self.direction.x == -1:
-					self.direction.x = 1
-				elif self.direction.x == 1:
-					self.direction.x = -1
+				self.direction.x = (self.direction.x * -1)
+				self.direction.y = (self.direction.y * -1)
 
 			if !ray.get_collider().is_in_group(team):
 				currentState = STATE.ATTACK

@@ -12,6 +12,7 @@ var currentTextIndex = 0
 var fontFortification = load("res://assets/fonts/dynamicFonts/fortification.tres")
 
 func _ready():
+	optionsHBox.add_constant_override("separation", 64)
 	set_process_input(true)
 
 func _input(event):
@@ -52,7 +53,7 @@ func setHBoxOptions(optionsArray):
 		optionLabel.set("custom_colors/font_color", Color("ffffff"))
 		optionsHBox.add_child(optionLabel)
 
-	optionsHBox.get_children()[0].set("custom_colors/font_color", Color("826481"))
+	updateHBoxOptionHighlight()
 
 # setText
 # Shows the text box and updates its content
@@ -76,6 +77,7 @@ func updateHBoxOptionHighlight():
 			option.set("custom_colors/font_color", Color("826481"))
 		else:
 			option.set("custom_colors/font_color", Color("ffffff"))
+		option.set("custom_colors/font_color_shadow", Color("000000"))
 
 # Signals
 
