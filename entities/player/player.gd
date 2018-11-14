@@ -30,7 +30,7 @@ func _input(event):
 
 	elif currentState == STATE.TEXT:
 		if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
-			if canvas.currentTextIndex == (canvas.currentTextArray.size() - 1):
+			if canvas.currentTextIndex == (canvas.currentTextArray.size() - 1) && canvas.optionsHBox.get_children().size() == 0:
 				currentState = STATE.REST
 				canvas.resetText()
 			else:

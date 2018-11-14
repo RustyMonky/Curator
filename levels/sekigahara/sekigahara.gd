@@ -31,12 +31,28 @@ func _ready():
 		for ally in get_tree().get_nodes_in_group("red"):
 			redSamurai.add_collision_exception_with(ally)
 
+	set_process_input(true)
+
+func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		if !hasChosenTeam:
+			# Override player state to allow choosing options
+			playerInstance.currentState = playerInstance.STATE.TEXT
+
+			if playerInstance.canvas.optionsHBox.get_children().size() == 0:
+				playerInstance.canvas.setHBoxOptions(["blue", "neutral", "red"])
+			else:
+				playerInstance.add_to_group(playerInstance.canvas.optionsHBox.get_children()[playerInstance.canvas.currentHBoxIndex].text)
+				hasChosenTeam = true
+				playerInstance.currentState = playerInstance.STATE.REST
+				playerInstance.canvas.resetHBoxOptions()
+
+		if playerInstance.currentState != playerInstance.STATE.TEXT && hasChosenTeam && !startEvent:
+			startEvent = true
+
 func _process(delta):
 	if complete:
 		return
-
-	if playerInstance.currentState != playerInstance.STATE.TEXT && hasChosenTeam && !startEvent:
-		startEvent = true
 
 	if samuraiNode.get_children().size() == 0:
 		complete = true
