@@ -9,6 +9,7 @@ onready var ray = $samuraiRay
 
 var currentState = STATE.MOVE
 var target = null
+var targetRef = null
 var team = null
 
 func _ready():
@@ -21,7 +22,7 @@ func _physics_process(delta):
 		animations.play()
 
 	if currentState == STATE.MOVE:
-		if !target:
+		if !target || !targetRef.get_ref():
 			if animations.flip_h:
 				self.direction = Vector2(-1, 0)
 				ray.rotation_degrees = 180
@@ -36,14 +37,14 @@ func _physics_process(delta):
 			elif self.global_position.y == target.global_position.y:
 				self.direction.y = 0
 
-			if animations.flip_h && target.global_position.x > self.global_position.x:
-				animations.flip_h = false
+			if target.global_position.x > self.global_position.x:
+				if animations.flip_h:
+					animations.flip_h = false
 				self.direction.x = 1
-			elif !animations.flip_h && target.global_position.x < self.global_position.x:
-				animations.flip_h = true
+			elif target.global_position.x < self.global_position.x:
+				if !animations.flip_h:
+					animations.flip_h = true
 				self.direction.x = -1
-			elif self.global_position.x == target.global_position.x:
-				self.direction.x = 0
 
 			if animations.flip_h == true:
 				ray.rotation_degrees = 180
@@ -52,11 +53,22 @@ func _physics_process(delta):
 
 		collisionObject = self.move_and_collide(self.direction.normalized() * SPEED * delta)
 
-		if ray.is_colliding() && !ray.get_collider().is_in_group(team):
-			currentState = STATE.ATTACK
-			animations.set_animation("sword")
-			animations.play()
-			self.direction = Vector2()
+		if collisionObject && !collisionObject.collider.is_in_group(team) && collisionObject.collider != target:
+			setTarget(collisionObject.collider)
+
+		if ray.is_colliding():
+			# Put wall check here as first if here
+			if !ray.get_collider().is_in_group(team):
+				currentState = STATE.ATTACK
+				animations.set_animation("sword")
+				animations.play()
+				self.direction = Vector2()
+
+# setTarget
+# Sets the target and a weak reference to it for future freed instances
+func setTarget(targetEntity):
+	target = targetEntity
+	targetRef = weakref(target)
 
 # setTeam
 # Sets the samurai team color and modulate
@@ -96,4 +108,4 @@ func _on_samuraiAnimations_frame_changed():
 
 func _on_samuraiDetectArea_body_entered(body):
 	if !body.is_in_group(team) && !target:
-		target = body
+		setTarget(body)
