@@ -30,8 +30,11 @@ func _input(event):
 
 	elif currentState == STATE.TEXT:
 		if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
-			currentState = STATE.REST
-			canvas.resetText()
+			if canvas.currentTextIndex == (canvas.currentTextArray.size() - 1):
+				currentState = STATE.REST
+				canvas.resetText()
+			else:
+				canvas.showNextText()
 
 func _process(delta):
 	if currentState == STATE.MOVING || currentState == STATE.REST:

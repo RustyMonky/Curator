@@ -2,8 +2,10 @@ extends "res://levels/level.gd"
 
 onready var samuraiNode = $samurai
 
+var hasChosenTeam = false
+
 func _ready():
-	playerInstance.canvas.setText("Pick your side and defeat all enemies!")
+	playerInstance.canvas.setText(["Pick your side and defeat all enemies!"])
 	# Parent override for starting position to respect scaling
 	playerInstance.position = Vector2(16, (painting.get_texture().get_size().y * 0.75) - 16)
 
@@ -33,7 +35,7 @@ func _process(delta):
 	if complete:
 		return
 
-	if playerInstance.currentState != playerInstance.STATE.TEXT && !startEvent:
+	if playerInstance.currentState != playerInstance.STATE.TEXT && hasChosenTeam && !startEvent:
 		startEvent = true
 
 	if samuraiNode.get_children().size() == 0:

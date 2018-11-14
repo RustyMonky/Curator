@@ -1,7 +1,11 @@
 extends CanvasLayer
 
+onready var optionsHBox = $container/optionsHBox
 onready var textBox = $container/textBox
 onready var textLabel = $container/textBox/text
+
+var currentTextArray = []
+var currentTextIndex = 0
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -13,12 +17,19 @@ func _ready():
 func resetText():
 	textBox.hide()
 	textLabel.text = ""
+	currentTextIndex = 0
 
 # setText
 # Shows the text box and updates its content
-func setText(text):
+func setText(textArray):
 	textBox.show()
-	textLabel.text = text
+	currentTextArray = textArray
+	textLabel.text = textArray[currentTextIndex]
+
+func showNextText():
+	currentTextIndex += 1
+	textLabel.visible_characters = 0
+	textLabel.text = currentTextArray[currentTextIndex]
 
 # Signals
 
