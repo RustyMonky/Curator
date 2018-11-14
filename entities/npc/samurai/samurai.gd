@@ -56,8 +56,15 @@ func _physics_process(delta):
 		if collisionObject && !collisionObject.collider.is_in_group(team) && collisionObject.collider != target:
 			setTarget(collisionObject.collider)
 
-		if ray.is_colliding():
-			# Put wall check here as first if here
+		if ray.is_colliding() && ray.get_collider():
+
+			if ray.get_collider().is_in_group("obstacle"):
+				animations.flip_h = !animations.flip_h
+				if self.direction.x == -1:
+					self.direction.x = 1
+				elif self.direction.x == 1:
+					self.direction.x = -1
+
 			if !ray.get_collider().is_in_group(team):
 				currentState = STATE.ATTACK
 				animations.set_animation("sword")
@@ -107,5 +114,7 @@ func _on_samuraiAnimations_frame_changed():
 		ray.get_collider().takeDamage()
 
 func _on_samuraiDetectArea_body_entered(body):
-	if !body.is_in_group(team) && !target:
+	if body.is_in_group("obstacle"):
+		return
+	elif !body.is_in_group(team) && !target:
 		setTarget(body)

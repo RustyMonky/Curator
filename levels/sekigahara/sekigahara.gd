@@ -20,6 +20,15 @@ func _ready():
 		samuraiInstance.animations.flip_h = true
 		samuraiInstance.setTeam("red")
 
+	# Now, override collision per samurai so that they don't collide with their team
+	for blueSamurai in get_tree().get_nodes_in_group("blue"):
+		for ally in get_tree().get_nodes_in_group("blue"):
+			blueSamurai.add_collision_exception_with(ally)
+
+	for redSamurai in get_tree().get_nodes_in_group("red"):
+		for ally in get_tree().get_nodes_in_group("red"):
+			redSamurai.add_collision_exception_with(ally)
+
 func _process(delta):
 	if complete:
 		return
