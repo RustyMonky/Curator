@@ -13,7 +13,7 @@ extents = Vector2( 3.95, 8.14375 )
 custom_solver_bias = 0.0
 radius = 50.0
 
-[node name="samurai" type="KinematicBody2D" groups=[
+[node name="samurai" type="KinematicBody2D" index="0" groups=[
 "entities",
 ]]
 
@@ -41,6 +41,7 @@ collision_mask = 1
 
 [node name="samuraiDetectArea" type="Area2D" parent="." index="3"]
 
+editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -53,10 +54,19 @@ audio_bus_name = "Master"
 
 shape = SubResource( 2 )
 
+[node name="samuraiAttackDelay" type="Timer" parent="." index="4"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
 [connection signal="animation_finished" from="samuraiAnimations" to="." method="_on_samuraiAnimations_animation_finished"]
 
 [connection signal="frame_changed" from="samuraiAnimations" to="." method="_on_samuraiAnimations_frame_changed"]
 
 [connection signal="body_entered" from="samuraiDetectArea" to="." method="_on_samuraiDetectArea_body_entered"]
+
+[connection signal="timeout" from="samuraiAttackDelay" to="." method="_on_samuraiAttackDelay_timeout"]
 
 

@@ -1,10 +1,11 @@
 extends "res://entities/npc/npc.gd"
 
-enum STATE { MOVE, ATTACK, HURT }
+enum STATE { MOVE, ATTACK, HURT, REST }
 
 const SPEED = 48
 
 onready var animations = $samuraiAnimations
+onready var delayTimer = $samuraiAttackDelay
 onready var ray = $samuraiRay
 
 var currentState = STATE.MOVE
@@ -17,8 +18,10 @@ func _ready():
 
 func _physics_process(delta):
 	if !get_parent().get_parent().startEvent:
+		currentState = STATE.REST
 		return
-	else:
+	elif currentState == STATE.REST:
+		currentState = STATE.MOVE
 		animations.play()
 
 	if currentState == STATE.MOVE:
@@ -61,9 +64,13 @@ func _physics_process(delta):
 			if ray.get_collider().is_in_group("obstacle"):
 				animations.flip_h = !animations.flip_h
 				self.direction.x = (self.direction.x * -1)
-				self.direction.y = (self.direction.y * -1)
+				self.direction.y = 0
+				if self.direction.x == -1:
+					ray.rotation_degrees = 180
+				else:
+					ray.rotation_degrees = 0
 
-			if !ray.get_collider().is_in_group(team):
+			if !ray.get_collider().is_in_group(team) && ray.get_collider().is_in_group("entities"):
 				currentState = STATE.ATTACK
 				animations.set_animation("sword")
 				animations.play()
@@ -102,9 +109,14 @@ func takeDamage():
 
 func _on_samuraiAnimations_animation_finished():
 	if currentState == STATE.ATTACK || currentState == STATE.HURT:
-		currentState = STATE.MOVE
 		animations.set_animation("walkSwordSide")
-		animations.play()
+		# Then, specifically if they just attacked, delay their next strike:
+		if currentState == STATE.ATTACK:
+			currentState = STATE.REST
+			delayTimer.start()
+		else:
+			currentState = STATE.MOVE
+			animations.play()
 
 func _on_samuraiAnimations_frame_changed():
 	# Determines if entity stands close enough to attack animation to take damage
@@ -116,3 +128,7 @@ func _on_samuraiDetectArea_body_entered(body):
 		return
 	elif !body.is_in_group(team) && !target:
 		setTarget(body)
+
+func _on_samuraiAttackDelay_timeout():
+	currentState = STATE.MOVE
+	animations.play()
