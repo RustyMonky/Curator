@@ -5,9 +5,11 @@ onready var samuraiNode = $samurai
 var hasChosenTeam = false
 
 func _ready():
+	textureScale = 0.75
+
 	playerInstance.canvas.setText(["Pick your side and defeat all enemies!"])
 	# Parent override for starting position to respect scaling
-	playerInstance.position = Vector2((painting.get_texture().get_size().x * 0.75) / 2, (painting.get_texture().get_size().y * 0.75) / 2)
+	playerInstance.position = Vector2((painting.get_texture().get_size().x * textureScale) / 2, (painting.get_texture().get_size().y * textureScale) / 2)
 
 	for i in range(5):
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
@@ -18,7 +20,7 @@ func _ready():
 	for i in range(5):
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
 		samuraiNode.add_child(samuraiInstance)
-		samuraiInstance.position = Vector2((painting.get_texture().get_size().x * 0.75) - 16, 32 * (i + 1))
+		samuraiInstance.position = Vector2((painting.get_texture().get_size().x * textureScale) - 16, 32 * (i + 1))
 		samuraiInstance.animations.flip_h = true
 		samuraiInstance.setTeam("red")
 
@@ -36,7 +38,9 @@ func _ready():
 # isLevelComplete
 # Determines if the victory conditions have been met
 func isLevelComplete():
-	if playerInstance.is_in_group("neutral") and samuraiNode.get_children().size() == 0:
+	if !hasChosenTeam && !startEvent:
+		return false
+	elif playerInstance.is_in_group("neutral") and samuraiNode.get_children().size() == 0:
 		return true
 	elif playerInstance.is_in_group("blue") and get_tree().get_nodes_in_group("red").size() == 0:
 		return true
@@ -65,9 +69,6 @@ func _input(event):
 func _process(delta):
 	if complete:
 		return
-
-	if isLevelComplete():
+	elif isLevelComplete():
 		complete = true
 		openPortal()
-		portalInstance.position = Vector2((painting.get_texture().get_size().x * 0.75) / 2, (painting.get_texture().get_size().y * 0.75) / 2)
-		portalPosition = portalInstance.position
