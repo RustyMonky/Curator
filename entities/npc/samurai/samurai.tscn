@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://entities/npc/samurai/samurai.gd" type="Script" id=1]
-[ext_resource path="res://assets/spriteFrames/player.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://assets/spriteFrames/samurai.tres" type="SpriteFrames" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -26,7 +26,7 @@ script = ExtResource( 1 )
 [node name="samuraiAnimations" type="AnimatedSprite" parent="." index="0"]
 
 frames = ExtResource( 2 )
-animation = "walkSwordSide"
+animation = "samuraiWalk"
 
 [node name="samuraiCollider" type="CollisionShape2D" parent="." index="1"]
 
@@ -41,7 +41,6 @@ collision_mask = 1
 
 [node name="samuraiDetectArea" type="Area2D" parent="." index="3"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0

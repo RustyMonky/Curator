@@ -109,7 +109,7 @@ func takeDamage():
 
 func _on_samuraiAnimations_animation_finished():
 	if currentState == STATE.ATTACK || currentState == STATE.HURT:
-		animations.set_animation("walkSwordSide")
+		animations.set_animation("samuraiWalk")
 		# Then, specifically if they just attacked, delay their next strike:
 		if currentState == STATE.ATTACK:
 			currentState = STATE.REST
