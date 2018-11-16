@@ -72,7 +72,7 @@ func _physics_process(delta):
 
 			if !ray.get_collider().is_in_group(team) && ray.get_collider().is_in_group("entities"):
 				currentState = STATE.ATTACK
-				animations.set_animation("sword")
+				animations.set_animation("samuraiSword")
 				animations.play()
 				self.direction = Vector2()
 
