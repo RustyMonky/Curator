@@ -103,7 +103,7 @@ func takeDamage():
 		self.queue_free()
 	else:
 		currentState = STATE.HURT
-		animations.play("hurt")
+		animations.play("samuraiHurt")
 
 # Signals
 
@@ -131,4 +131,5 @@ func _on_samuraiDetectArea_body_entered(body):
 
 func _on_samuraiAttackDelay_timeout():
 	currentState = STATE.MOVE
+	animations.set_animation("samuraiWalk")
 	animations.play()
