@@ -15,6 +15,7 @@ radius = 50.0
 
 [node name="samurai" type="KinematicBody2D" index="0" groups=[
 "entities",
+"samurai",
 ]]
 
 input_pickable = false
@@ -22,6 +23,7 @@ collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="samuraiAnimations" type="AnimatedSprite" parent="." index="0"]
 
@@ -34,20 +36,25 @@ shape = SubResource( 1 )
 
 [node name="samuraiRay" type="RayCast2D" parent="." index="2"]
 
+scale = Vector2( 1, 6 )
 enabled = true
 exclude_parent = true
 cast_to = Vector2( 5, 0 )
 collision_mask = 1
+_sections_unfolded = [ "Transform" ]
 
 [node name="samuraiDetectArea" type="Area2D" parent="." index="3"]
 
-input_pickable = true
+editor/display_folded = true
+input_pickable = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+priority = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
+_sections_unfolded = [ "Pickable" ]
 
 [node name="samuraiDetectShape" type="CollisionShape2D" parent="samuraiDetectArea" index="0"]
 

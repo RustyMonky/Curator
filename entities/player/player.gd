@@ -43,14 +43,17 @@ func _process(delta):
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_down"):
 			self.direction = Vector2(0, 1)
+			currentAnimation = "walkDown"
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_left"):
 			self.direction = Vector2(-1, 0)
 			playerAnimations.flip_h = true
+			currentAnimation = "walkSide"
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_right"):
 			self.direction = Vector2(1, 0)
 			playerAnimations.flip_h = false
+			currentAnimation = "walkSide"
 			moveSelf(delta)
 
 	if get_parent().has_node("portal"):

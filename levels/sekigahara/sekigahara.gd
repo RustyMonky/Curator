@@ -1,6 +1,7 @@
 extends "res://levels/level.gd"
 
-onready var samuraiNode = $samurai
+onready var nav = $samuraiNav
+onready var tilemap = $samuraiNav/tilemap
 
 var hasChosenTeam = false
 
@@ -9,6 +10,7 @@ func _ready():
 	var xRange = painting.get_texture().get_size().x * textureScale
 
 	playerInstance.canvas.setText(["Pick your side and defeat all enemies!"])
+
 	# Parent override for starting position to respect scaling
 	playerInstance.position = Vector2((painting.get_texture().get_size().x * textureScale) / 2, (painting.get_texture().get_size().y * textureScale) / 2)
 
@@ -16,18 +18,20 @@ func _ready():
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
 		var randomX = rand_range(16, xRange / 2)
 		randomize()
-		samuraiNode.add_child(samuraiInstance)
+		nav.add_child(samuraiInstance)
 		samuraiInstance.position = Vector2(randomX, 32 * (i+ 1))
 		samuraiInstance.setTeam("blue")
+		samuraiInstance.setNav(nav)
 
 	for i in range(5):
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
 		var randomX = rand_range(xRange / 2, xRange)
 		randomize()
-		samuraiNode.add_child(samuraiInstance)
+		nav.add_child(samuraiInstance)
 		samuraiInstance.position = Vector2(randomX, 32 * (i + 1))
 		samuraiInstance.animations.flip_h = true
 		samuraiInstance.setTeam("red")
+		samuraiInstance.setNav(nav)
 
 	set_process_input(true)
 
@@ -36,7 +40,7 @@ func _ready():
 func isLevelComplete():
 	if !hasChosenTeam && !startEvent:
 		return false
-	elif playerInstance.is_in_group("neutral") and samuraiNode.get_children().size() == 0:
+	elif playerInstance.is_in_group("neutral") and get_tree().get_nodes_in_group("samurai").size() == 0:
 		return true
 	elif playerInstance.is_in_group("blue") and get_tree().get_nodes_in_group("red").size() == 0:
 		return true

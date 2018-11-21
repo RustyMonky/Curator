@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 onready var optionsHBox = $container/optionsHBox
+onready var optionsPatch = $container/optionsPatch
 onready var textBox = $container/textBox
 onready var textLabel = $container/textBox/text
 
@@ -35,6 +36,7 @@ func resetHBoxOptions():
 	for option in optionsHBox.get_children():
 		option.queue_free()
 	currentHBoxIndex = 0
+	optionsPatch.hide()
 
 # resetText
 # Clears the label and hides the text box
@@ -54,6 +56,7 @@ func setHBoxOptions(optionsArray):
 		optionsHBox.add_child(optionLabel)
 
 	updateHBoxOptionHighlight()
+	optionsPatch.show()
 
 # setText
 # Shows the text box and updates its content
@@ -74,10 +77,10 @@ func showNextText():
 func updateHBoxOptionHighlight():
 	for option in optionsHBox.get_children():
 		if optionsHBox.get_children().find(option) == currentHBoxIndex:
-			option.set("custom_colors/font_color", Color("826481"))
+			option.set("custom_colors/font_color", Color("ffad3b"))
 		else:
 			option.set("custom_colors/font_color", Color("ffffff"))
-		option.set("custom_colors/font_color_shadow", Color("000000"))
+		option.set("custom_colors/font_color_shadow", Color("1f1833"))
 
 # Signals
 

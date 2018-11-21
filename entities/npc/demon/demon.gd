@@ -35,6 +35,8 @@ func _physics_process(delta):
 		elif !animations.flip_h && player.position.x < self.position.x:
 			animations.flip_h = true
 			self.direction.x = -1
+		elif self.position.x == player.position.x:
+			self.direction.x = 0
 
 		if animations.flip_h == true:
 			ray.rotation_degrees = 180
