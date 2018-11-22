@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+onready var hpHBox = $container/hpContainer/hpHBox
 onready var optionsHBox = $container/optionsHBox
 onready var optionsPatch = $container/optionsPatch
 onready var textBox = $container/textBox
@@ -11,9 +12,16 @@ var currentTextArray = []
 var currentTextIndex = 0
 
 var fontFortification = load("res://assets/fonts/dynamicFonts/fortification.tres")
+var hpHeartTexture = load("res://assets/sprites/ui/hpHeart.png")
 
 func _ready():
 	optionsHBox.add_constant_override("separation", 64)
+
+	for i in range(gameData.playerData.hp):
+		var hpHeart = TextureRect.new()
+		hpHeart.set_texture(hpHeartTexture)
+		hpHBox.add_child(hpHeart)
+
 	set_process_input(true)
 
 func _input(event):
@@ -71,6 +79,12 @@ func showNextText():
 	currentTextIndex += 1
 	textLabel.visible_characters = 0
 	textLabel.text = currentTextArray[currentTextIndex]
+
+# takeDamage
+# Initiates animations of hp ui assets
+func takeDamage():
+	var hpHearts = hpHBox.get_children()
+	hpHearts.back().queue_free()
 
 # updateHBoxOptionHighlight
 # Updates highlighting of option after user input

@@ -12,7 +12,6 @@ onready var playerAnimations = $playerAnimations
 var currentAnimation = "walkSide"
 var currentState = STATE.TEXT
 var direction = Vector2(0, 0)
-var hp = 3
 var isInvulerable = false
 
 func _ready():
@@ -73,9 +72,10 @@ func takeDamage():
 	if isInvulerable:
 		return
 
-	self.hp -= 1
+	gameData.playerData.hp -= 1
+	canvas.takeDamage()
 
-	if hp <= 0:
+	if gameData.playerData.hp <= 0:
 		sceneManager.goto_scene("res://levels/gameover/gameover.tscn")
 	else:
 		animator.play("invulnerabilityFrames")

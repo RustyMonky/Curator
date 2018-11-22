@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/sprites/ui/panelFrame.png" type="Texture" id=2]
 [ext_resource path="res://assets/fonts/dynamicFonts/fortification.tres" type="DynamicFont" id=3]
 
-[node name="canvas" type="CanvasLayer"]
+[node name="canvas" type="CanvasLayer" index="0"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -28,6 +28,7 @@ size_flags_vertical = 1
 
 [node name="textBox" type="NinePatchRect" parent="container" index="0"]
 
+editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.588235 )
 anchor_left = 0.5
 anchor_top = 1.0
