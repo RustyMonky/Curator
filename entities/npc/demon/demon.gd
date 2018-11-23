@@ -5,11 +5,12 @@ enum STATE { REST, ATTACK, CHASE, HURT }
 const SPEED = 64
 
 onready var animations = $demonAnimations
-onready var player = get_parent().get_node("player")
+onready var player = get_parent().get_parent().get_node("player")
 onready var ray = $demonRay
 onready var timer = $demonDelay
 
 var currentState = STATE.CHASE
+var navPointsArray = []
 
 func _ready():
 	# Override parent hp value
@@ -18,36 +19,33 @@ func _ready():
 	set_physics_process(true)
 
 func _physics_process(delta):
-	if !get_parent().startEvent:
+	if !get_parent().get_parent().startEvent:
 		return
 
 	if currentState == STATE.CHASE:
-		if self.position.y < player.position.y:
-			self.direction.y = 1
-		elif self.position.y > player.position.y:
-			self.direction.y = -1
-		elif self.position.y == player.position.y:
-			self.direction.y = 0
+		navPointsArray = nav.get_simple_path(self.global_position, player.global_position, false)
 
 		if animations.flip_h && player.position.x > self.position.x:
 			animations.flip_h = false
-			self.direction.x = 1
 		elif !animations.flip_h && player.position.x < self.position.x:
 			animations.flip_h = true
-			self.direction.x = -1
-		elif self.position.x == player.position.x:
-			self.direction.x = 0
 
 		if animations.flip_h == true:
 			ray.rotation_degrees = 180
 		else:
 			ray.rotation_degrees = 0
 
-		collisionObject = self.move_and_collide(self.direction.normalized() * SPEED * delta)
+		var velocity = (navPointsArray[1] - self.position).normalized() * SPEED * delta
+
+		collisionObject = self.move_and_collide(velocity)
+
+		# If colliding with an entity that's not an obstacle, current target, or on the same team, set that collider as the new target
+		if collisionObject && collisionObject.collider.is_in_group("obstacles"):
+				velocity = velocity.slide(collisionObject.normal)
 
 		if ray.is_colliding() && ray.get_collider().is_in_group("entities"):
 			currentState = STATE.ATTACK
-			animations.set_animation("smash")
+			animations.set_animation("demonSmash")
 			animations.play()
 
 # takeDamage
@@ -59,14 +57,14 @@ func takeDamage():
 		self.queue_free()
 	else:
 		currentState = STATE.HURT
-		animations.play("hurt")
+		animations.play("demonHurt")
 
 # Signals
 
 func _on_demonAnimations_animation_finished():
 	if currentState == STATE.ATTACK || currentState == STATE.HURT:
 		currentState = STATE.REST
-		animations.set_animation("walkSide")
+		animations.set_animation("demonWalk")
 		animations.stop()
 		animations.set_frame(0)
 		timer.start()

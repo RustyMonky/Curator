@@ -6,18 +6,15 @@ onready var painting = $painting
 onready var playerInstance = load("res://entities/player/player.tscn").instance()
 
 var complete = false
+var paintingSize = Vector2()
 var startEvent = false
 var textureScale = 1
 
 func _ready():
-	self.add_child(playerInstance)
-	playerInstance.position = Vector2(16, painting.get_texture().get_size().y - 16)
+	paintingSize = painting.get_texture().get_size()
 
-	if gameData.hasDemon:
-		var demonInstance = load("res://entities/npc/demon/demon.tscn").instance()
-		self.add_child(demonInstance)
-		demonInstance.position = Vector2(-64, painting.get_texture().get_size().y / 2)
-		demonInstance.direction = Vector2(1, 0)
+	self.add_child(playerInstance)
+	playerInstance.position = Vector2(16, paintingSize.y - 16)
 
 	set_process(true)
 
@@ -26,5 +23,5 @@ func _ready():
 func openPortal():
 	var portalInstance = load("res://entities/portal/portal.tscn").instance()
 	self.add_child(portalInstance)
-	portalInstance.position = Vector2((painting.get_texture().get_size().x * textureScale) / 2, (painting.get_texture().get_size().y * textureScale) / 2)
+	portalInstance.position = Vector2((paintingSize.x * textureScale) / 2, (paintingSize.y * textureScale) / 2)
 	portalPosition = portalInstance.position

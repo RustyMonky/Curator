@@ -7,12 +7,12 @@ var hasChosenTeam = false
 
 func _ready():
 	textureScale = 0.75
-	var xRange = painting.get_texture().get_size().x * textureScale
+	var xRange = paintingSize.x * textureScale
 
 	playerInstance.canvas.setText(["Pick your side and defeat all enemies!"])
 
 	# Parent override for starting position to respect scaling
-	playerInstance.position = Vector2((painting.get_texture().get_size().x * textureScale) / 2, (painting.get_texture().get_size().y * textureScale) / 2)
+	playerInstance.position = Vector2((paintingSize.x * textureScale) / 2, (paintingSize.y * textureScale) / 2)
 
 	for i in range(5):
 		var samuraiInstance = load("res://entities/npc/samurai/samurai.tscn").instance()
@@ -32,6 +32,13 @@ func _ready():
 		samuraiInstance.animations.flip_h = true
 		samuraiInstance.setTeam("red")
 		samuraiInstance.setNav(nav)
+
+	if gameData.hasDemon:
+		var demonInstance = load("res://entities/npc/demon/demon.tscn").instance()
+		nav.add_child(demonInstance)
+		demonInstance.position = Vector2((paintingSize.x * textureScale) - 64, (paintingSize.y * textureScale) / 2)
+		demonInstance.animations.flip_h = true
+		demonInstance.setNav(nav)
 
 	set_process_input(true)
 

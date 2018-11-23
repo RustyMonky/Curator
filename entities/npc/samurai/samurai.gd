@@ -10,7 +10,6 @@ onready var sceneParent = get_parent().get_parent()
 onready var ray = $samuraiRay
 
 var currentState = STATE.MOVE
-var nav = null
 var navPointsArray = []
 var selfIndex
 var target = null
@@ -51,17 +50,11 @@ func _physics_process(delta):
 		else:
 			# Determine if animation horizontal flip is required
 			if animations.flip_h == true:
-				self.direction.x = - 1
 				ray.rotation_degrees = 180
 			else:
-				self.direction.x = 1
 				ray.rotation_degrees = 0
 
-			# Determine appropriate animation
-			if self.direction.x != 0:
-				animations.play("samuraiWalk")
-			elif self.direction.y == 1:
-				animations.play("samuraiWalkDown")
+			animations.play("samuraiWalk")
 
 		var velocity = (navPointsArray[1] - self.position).normalized() * SPEED * delta
 
@@ -80,9 +73,8 @@ func _physics_process(delta):
 			# If colliding with an obstacle, just turn around
 			if rayCollider.is_in_group("obstacle"):
 				animations.flip_h = !animations.flip_h
-				self.direction.x = (self.direction.x * -1)
-				self.direction.y = 0
-				if self.direction.x == -1:
+
+				if animations.flip_h:
 					ray.rotation_degrees = 180
 				else:
 					ray.rotation_degrees = 0
@@ -97,12 +89,6 @@ func _physics_process(delta):
 				currentState = STATE.ATTACK
 				animations.set_animation("samuraiSword")
 				animations.play()
-				self.direction = Vector2()
-
-# setNav
-# Sets the navigation 2D reference
-func setNav(navNode):
-	nav = navNode
 
 # setTarget
 # Sets the target and a weak reference to it for future freed instances

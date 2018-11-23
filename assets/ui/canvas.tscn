@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/sprites/ui/panelFrame.png" type="Texture" id=2]
 [ext_resource path="res://assets/fonts/dynamicFonts/fortification.tres" type="DynamicFont" id=3]
 
-[node name="canvas" type="CanvasLayer" index="0"]
+[node name="canvas" type="CanvasLayer"]
 
 layer = 1
 offset = Vector2( 0, 0 )
