@@ -1,7 +1,5 @@
 extends "res://entities/npc/npc.gd"
 
-enum STATE { MOVE, ATTACK, HURT, REST }
-
 const SPEED = 24
 
 onready var animations = $samuraiAnimations
@@ -9,7 +7,6 @@ onready var delayTimer = $samuraiAttackDelay
 onready var sceneParent = get_parent().get_parent()
 onready var ray = $samuraiRay
 
-var currentState = STATE.MOVE
 var navPointsArray = []
 var selfIndex
 var target = null
@@ -141,8 +138,11 @@ func _on_samuraiAnimations_animation_finished():
 
 func _on_samuraiAnimations_frame_changed():
 	# Determines if entity stands close enough to attack animation to take damage
-	if currentState == STATE.ATTACK && ray.is_colliding() && ray.get_collider().is_in_group("entities") && animations.get_frame() == 5:
-		ray.get_collider().takeDamage()
+	if currentState == STATE.ATTACK && ray.is_colliding():
+		var collider = ray.get_collider()
+
+		if collider.is_in_group("entities") && !collider.isHurt() && animations.get_frame() >= 5:
+			collider.takeDamage()
 
 func _on_samuraiDetectArea_body_entered(body):
 	if body.is_in_group("entities") && !body.is_in_group(team):

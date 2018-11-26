@@ -53,22 +53,29 @@ func _process(delta):
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_down"):
 			self.direction = Vector2(0, 1)
-			currentAnimation = "walkDown"
+			#currentAnimation = "walkDown"
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_left"):
 			self.direction = Vector2(-1, 0)
 			playerAnimations.flip_h = true
+			ray.rotation_degrees = 180
 			currentAnimation = "walkSwordSide"
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_right"):
 			self.direction = Vector2(1, 0)
 			playerAnimations.flip_h = false
+			ray.rotation_degrees = 0
 			currentAnimation = "walkSwordSide"
 			moveSelf(delta)
 
 	if get_parent().has_node("portal"):
 		arrow.set_visible(true)
 		arrow.rotation = (get_parent().portalPosition - arrow.global_position).angle()
+
+# isHurt
+# Returns whether or not player is currently hurt
+func isHurt():
+	return currentState == STATE.HURT
 
 # moveSelf
 # Moves the player and updates their current state
@@ -105,7 +112,11 @@ func _on_playerAnimations_animation_finished():
 	if currentState == STATE.HURT || currentState == STATE.ATTACK:
 		currentAnimation = "walkSwordSide"
 		currentState = STATE.REST
+		playerAnimations.play(currentAnimation)
 
 func _on_playerAnimations_frame_changed():
-	if currentState == STATE.ATTACK && ray.is_colliding() && ray.get_collider().is_in_group("entities") && playerAnimations.get_frame() == 5:
-		ray.get_collider().takeDamage()
+	if currentState == STATE.ATTACK && ray.is_colliding():
+		var collider = ray.get_collider()
+
+		if collider.is_in_group("entities") && !collider.isHurt() && playerAnimations.get_frame() >= 5:
+			collider.takeDamage()
