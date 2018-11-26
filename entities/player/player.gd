@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum STATE { TEXT, REST, MOVING, HURT, DEAD }
+enum STATE { ATTACK, TEXT, REST, MOVING, HURT, DEAD }
 
 const SPEED = 64
 
@@ -8,8 +8,9 @@ onready var animator = $playerAnimator
 onready var arrow = $arrow
 onready var canvas = $canvas
 onready var playerAnimations = $playerAnimations
+onready var ray = $playerRay
 
-var currentAnimation = "walkSide"
+var currentAnimation = "walkSwordSide"
 var currentState = STATE.TEXT
 var direction = Vector2(0, 0)
 var isInvulerable = false
@@ -21,19 +22,29 @@ func _ready():
 	set_process_input(true)
 
 func _input(event):
-	if currentState == STATE.MOVING:
-		if event.is_action_released("ui_up") || event.is_action_released("ui_down") || event.is_action_released("ui_left") || event.is_action_released("ui_right"):
-			currentState = STATE.REST
-			playerAnimations.stop()
-			playerAnimations.set_frame(0)
+	match (currentState):
+		STATE.REST:
+			if event.is_action_pressed("ui_accept"):
+				currentState = STATE.ATTACK
+				playerAnimations.play("sword")
 
-	elif currentState == STATE.TEXT:
-		if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
-			if canvas.currentTextIndex == (canvas.currentTextArray.size() - 1) && canvas.optionsHBox.get_children().size() == 0:
+		STATE.MOVING:
+			if event.is_action_released("ui_up") || event.is_action_released("ui_down") || event.is_action_released("ui_left") || event.is_action_released("ui_right"):
 				currentState = STATE.REST
-				canvas.resetText()
-			else:
-				canvas.showNextText()
+				playerAnimations.stop()
+				playerAnimations.set_frame(0)
+
+			elif event.is_action_pressed("ui_accept"):
+				currentState = STATE.ATTACK
+				playerAnimations.play("sword")
+
+		STATE.TEXT:
+			if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
+				if canvas.currentTextIndex == (canvas.currentTextArray.size() - 1) && canvas.optionsHBox.get_children().size() == 0:
+					currentState = STATE.REST
+					canvas.resetText()
+				else:
+					canvas.showNextText()
 
 func _process(delta):
 	if currentState == STATE.MOVING || currentState == STATE.REST:
@@ -47,12 +58,12 @@ func _process(delta):
 		elif Input.is_action_pressed("ui_left"):
 			self.direction = Vector2(-1, 0)
 			playerAnimations.flip_h = true
-			currentAnimation = "walkSide"
+			currentAnimation = "walkSwordSide"
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_right"):
 			self.direction = Vector2(1, 0)
 			playerAnimations.flip_h = false
-			currentAnimation = "walkSide"
+			currentAnimation = "walkSwordSide"
 			moveSelf(delta)
 
 	if get_parent().has_node("portal"):
@@ -91,6 +102,10 @@ func _on_playerAnimator_animation_finished(anim_name):
 		isInvulerable = false
 
 func _on_playerAnimations_animation_finished():
-	if currentState == STATE.HURT:
-		currentAnimation = "walkSide"
+	if currentState == STATE.HURT || currentState == STATE.ATTACK:
+		currentAnimation = "walkSwordSide"
 		currentState = STATE.REST
+
+func _on_playerAnimations_frame_changed():
+	if currentState == STATE.ATTACK && ray.is_colliding() && ray.get_collider().is_in_group("entities") && playerAnimations.get_frame() == 5:
+		ray.get_collider().takeDamage()

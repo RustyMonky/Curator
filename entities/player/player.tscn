@@ -11,7 +11,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 4.10625, 8.1125 )
 
-[node name="player" type="KinematicBody2D" groups=[
+[node name="player" type="KinematicBody2D" index="0" groups=[
 "entities",
 "player",
 ]]
@@ -26,7 +26,7 @@ _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 [node name="playerAnimations" type="AnimatedSprite" parent="." index="0"]
 
 frames = ExtResource( 2 )
-animation = "walkSide"
+animation = "walkSwordSide"
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="playerCamera" type="Camera2D" parent="." index="1"]
@@ -79,7 +79,18 @@ blend_times = [  ]
 
 [node name="canvas" parent="." index="5" instance=ExtResource( 5 )]
 
+[node name="playerRay" type="RayCast2D" parent="." index="6"]
+
+scale = Vector2( 1, 6 )
+enabled = true
+exclude_parent = true
+cast_to = Vector2( 5, 0 )
+collision_mask = 1
+_sections_unfolded = [ "Transform" ]
+
 [connection signal="animation_finished" from="playerAnimations" to="." method="_on_playerAnimations_animation_finished"]
+
+[connection signal="frame_changed" from="playerAnimations" to="." method="_on_playerAnimations_frame_changed"]
 
 [connection signal="animation_finished" from="playerAnimator" to="." method="_on_playerAnimator_animation_finished"]
 

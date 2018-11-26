@@ -43,7 +43,7 @@ func _physics_process(delta):
 		if collisionObject && collisionObject.collider.is_in_group("obstacles"):
 				velocity = velocity.slide(collisionObject.normal)
 
-		if ray.is_colliding() && ray.get_collider().is_in_group("entities"):
+		if ray.is_colliding() && weakref(ray.get_collider()) && ray.get_collider().is_in_group("entities"):
 			currentState = STATE.ATTACK
 			animations.set_animation("demonSmash")
 			animations.play()
