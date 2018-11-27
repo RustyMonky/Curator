@@ -13,6 +13,7 @@ outlines = [ PoolVector2Array( 0, 0, 0, 260, 570, 260, 570, 0, 0, 0 ) ]
 [node name="sekigahara" type="Node2D"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Visibility" ]
 
 [node name="painting" type="Sprite" parent="." index="0"]
 

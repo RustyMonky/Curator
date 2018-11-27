@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://levels/the-scream/screamBlast.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/effects/scream/screamBlast.png" type="Texture" id=2]
+
+[node name="screamBlast" type="Area2D"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+
+[node name="screamSprite" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 2 )
+
+[node name="screamCollider" type="CollisionPolygon2D" parent="." index="1"]
+
+build_mode = 0
+polygon = PoolVector2Array( -1.96478, -6.99323, -0.012207, -7.00814, 2.98372, -3.98364, 2.99863, 3.98059, 0.0176029, 7.02123, -2.00949, 7.02123, -2.00949, 5.99278, 0.00269794, 3.99801, 0.00269794, -4.00103, -2.00949, -5.99831 )
+
+[connection signal="body_entered" from="." to="." method="_on_screamBlast_body_entered"]
+
+

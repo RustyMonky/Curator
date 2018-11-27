@@ -48,7 +48,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Emission Shape", "Gravity" ]
 
-[node name="portal" type="Area2D" index="0"]
+[node name="portal" type="Area2D"]
 
 scale = Vector2( 2, 2 )
 input_pickable = true
@@ -59,7 +59,7 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="portalSprite" type="Sprite" parent="." index="0"]
 
@@ -69,6 +69,7 @@ _sections_unfolded = [ "Transform" ]
 [node name="portalShape" type="CollisionShape2D" parent="." index="1"]
 
 shape = SubResource( 1 )
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="portalTween" type="Tween" parent="." index="2"]
 
