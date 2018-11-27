@@ -11,4 +11,4 @@ func _ready():
 func _on_portal_body_entered(body):
 	if body.is_in_group("player"):
 		levelLoader.currentIndex += 1
-		sceneManager.goto_scene(levelLoader.getPath())
+		fader.fadeToScene(levelLoader.getPath())
