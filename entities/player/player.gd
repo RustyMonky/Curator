@@ -7,6 +7,7 @@ const SPEED = 64
 onready var animator = $playerAnimator
 onready var arrow = $arrow
 onready var canvas = $canvas
+onready var collisionPoly = $playerPolygon
 onready var playerAnimations = $playerAnimations
 onready var ray = $playerRay
 
@@ -101,12 +102,14 @@ func takeDamage():
 		currentAnimation = "hurt"
 		currentState = STATE.HURT
 		playerAnimations.play(currentAnimation)
+		collisionPoly.disabled = true
 
 # Signals
 
 func _on_playerAnimator_animation_finished(anim_name):
 	if anim_name == "invulnerabilityFrames":
 		isInvulerable = false
+		collisionPoly.disabled = false
 
 func _on_playerAnimations_animation_finished():
 	if currentState == STATE.HURT || currentState == STATE.ATTACK:
