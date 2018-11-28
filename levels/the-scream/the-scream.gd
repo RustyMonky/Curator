@@ -14,6 +14,7 @@ func _ready():
 	playerInstance.position = Vector2((paintingSize.x * textureScale) / 2, (paintingSize.y * textureScale) / 2)
 
 	# Select spawnpoint for switch
+	randomize()
 	var spawnX = randi() % int(paintingSize.x * textureScale)
 	var spawnY = randi() % int(paintingSize.y * textureScale)
 
@@ -34,6 +35,7 @@ func spawnBlast():
 	var blastInstance = load("res://levels/the-scream/screamBlast.tscn").instance()
 	blastInstance.destination = playerInstance.position
 	blastInstance.position = Vector2(320 * textureScale, 465 * textureScale)
+	blastInstance.add_to_group("blast")
 	nav.add_child(blastInstance)
 
 func _input(event):
@@ -43,7 +45,12 @@ func _input(event):
 
 func _process(delta):
 	if screamSwitch.currentState == "Off" && !complete:
+		screamSwitch.collider.disabled = true
 		complete = true
+
+		for blast in get_tree().get_nodes_in_group("blast"):
+			blast.dissipate()
+
 		openPortal()
 
 # Signals

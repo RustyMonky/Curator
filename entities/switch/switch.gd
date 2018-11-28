@@ -1,5 +1,6 @@
 extends Area2D
 
+onready var collider = $switchCollider
 onready var offSprite = load("res://assets/sprites/switch/off.png")
 onready var onSprite = load("res://assets/sprites/switch/on.png")
 onready var sprite = $switchSprite
