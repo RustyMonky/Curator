@@ -5,4 +5,7 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
-		sceneManager.goto_scene("res://levels/start/start.tscn")
+		gameData.restart()
+
+	if event.is_action_released("ui_accept"):
+		fader.fadeToScene("res://levels/start/start.tscn")
