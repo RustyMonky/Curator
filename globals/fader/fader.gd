@@ -13,4 +13,4 @@ func fadeToScene(destinationPath):
 	fadePlayer.play("fade")
 
 func switchScene():
-	sceneManager.goto_scene(levelLoader.getPath())
+	sceneManager.goto_scene(scenePath)

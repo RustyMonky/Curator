@@ -88,14 +88,15 @@ func moveSelf(delta):
 # takeDamage
 # Decreases player hp, triggers death, and starts invulnerability animation
 func takeDamage():
-	if isInvulerable:
+	if isInvulerable || currentState == STATE.DEAD:
 		return
 
 	gameData.playerData.hp -= 1
 	canvas.takeDamage()
 
 	if gameData.playerData.hp <= 0:
-		sceneManager.goto_scene("res://levels/gameover/gameover.tscn")
+		currentState = STATE.DEAD
+		playerAnimations.play("death")
 	else:
 		animator.play("invulnerabilityFrames")
 		isInvulerable = true
@@ -116,6 +117,8 @@ func _on_playerAnimations_animation_finished():
 		currentAnimation = "walkSwordSide"
 		currentState = STATE.REST
 		playerAnimations.play(currentAnimation)
+	elif currentState == STATE.DEAD:
+		fader.fadeToScene("res://levels/gameover/gameover.tscn")
 
 func _on_playerAnimations_frame_changed():
 	if currentState == STATE.ATTACK && ray.is_colliding():
