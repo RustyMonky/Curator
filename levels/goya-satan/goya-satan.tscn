@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://levels/goya-satan/goya-satan.gd" type="Script" id=1]
 [ext_resource path="res://assets/paintings/goya-satan-devouring-his-son.png" type="Texture" id=2]
 [ext_resource path="res://levels/tilemap/levelTileset.tres" type="TileSet" id=3]
+[ext_resource path="res://assets/music/Menace.ogg" type="AudioStream" id=4]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -10,7 +11,7 @@ vertices = PoolVector2Array( 0, 0, 360, 0, 360, 660, 0, 660 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( 0, 0, 360, 0, 360, 660, 0, 660 ) ]
 
-[node name="goya-satan" type="Node2D" index="0"]
+[node name="goya-satan" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -22,6 +23,8 @@ centered = false
 _sections_unfolded = [ "Offset", "Visibility" ]
 
 [node name="goyaNav" type="Navigation2D" parent="." index="1"]
+
+editor/display_folded = true
 
 [node name="tilemap" type="TileMap" parent="goyaNav" index="0" groups=[
 "obstacle",
@@ -50,5 +53,14 @@ _sections_unfolded = [ "Cell" ]
 
 navpoly = SubResource( 1 )
 enabled = true
+
+[node name="backgroundMusic" type="AudioStreamPlayer" parent="." index="2"]
+
+stream = ExtResource( 4 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = true
+mix_target = 0
+bus = "Master"
 
 

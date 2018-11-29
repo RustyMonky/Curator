@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Menace.ogg-640445f8d99a1f102135842e1d08bee8.oggstr"
+
+[deps]
+
+source_file="res://assets/music/Menace.ogg"
+dest_files=[ "res://.import/Menace.ogg-640445f8d99a1f102135842e1d08bee8.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://levels/the-scream/the-scream.gd" type="Script" id=1]
 [ext_resource path="res://assets/paintings/the-scream.png" type="Texture" id=2]
 [ext_resource path="res://levels/tilemap/levelTileset.tres" type="TileSet" id=3]
+[ext_resource path="res://assets/music/lostInStatic.wav" type="AudioStream" id=4]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -10,7 +11,7 @@ vertices = PoolVector2Array( 0, 0, 450, 0, 450, 570, 0, 570 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( 0, 0, 450, 0, 450, 570, 0, 570 ) ]
 
-[node name="the-scream" type="Node2D" index="0"]
+[node name="the-scream" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -22,6 +23,8 @@ centered = false
 _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="screamNav" type="Navigation2D" parent="." index="1"]
+
+editor/display_folded = true
 
 [node name="screamNavPoly" type="NavigationPolygonInstance" parent="screamNav" index="0"]
 
@@ -55,6 +58,15 @@ process_mode = 1
 wait_time = 3.0
 one_shot = false
 autostart = false
+
+[node name="backgroundMusic" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = ExtResource( 4 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = true
+mix_target = 0
+bus = "Master"
 
 [connection signal="timeout" from="screamDelay" to="." method="_on_screamDelay_timeout"]
 
