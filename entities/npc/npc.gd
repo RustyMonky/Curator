@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum STATE { MOVE, ATTACK, HURT, REST }
+enum STATE { MOVE, ATTACK, HURT, REST, DEAD }
 
 var collisionObject = null
 var currentState = STATE.MOVE

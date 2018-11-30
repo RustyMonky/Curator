@@ -4,6 +4,7 @@ const SPEED = 32
 
 onready var animationPlayer = $demonPlayer
 onready var animations = $demonAnimations
+onready var collider = $demonShape
 onready var player = get_parent().get_parent().get_node("player")
 onready var ray = $demonRay
 onready var timer = $demonDelay
@@ -53,7 +54,10 @@ func takeDamage():
 
 	if hp <= 0:
 		gameData.hasDemon = false
-		self.queue_free()
+		currentState = STATE.DEAD
+		collider.disabled = true
+		animations.set_animation("demonDeath")
+		animations.play()
 	else:
 		currentState = STATE.HURT
 		animations.play("demonHurt")
@@ -68,6 +72,8 @@ func _on_demonAnimations_animation_finished():
 		animations.stop()
 		animations.set_frame(0)
 		timer.start()
+	elif currentState == STATE.DEAD:
+		self.queue_free()
 
 func _on_demonAnimations_frame_changed():
 	# Determines if player stands close enough to demon's attack animation to take damage
