@@ -134,3 +134,7 @@ func _on_playerAnimations_frame_changed():
 
 		if collider.is_in_group("entities") && !collider.isHurt() && playerAnimations.get_frame() >= 5:
 			collider.takeDamage()
+
+			# If entity is a samurai, they'll now target the player
+			if collider.is_in_group("samurai"):
+				collider.setTarget(self)

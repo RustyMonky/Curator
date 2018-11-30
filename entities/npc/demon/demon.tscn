@@ -9,7 +9,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 4.14786, 8.24904 )
 
-[node name="demon" type="KinematicBody2D" index="0" groups=[
+[node name="demon" type="KinematicBody2D" groups=[
 "entities",
 ]]
 

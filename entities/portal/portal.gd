@@ -20,3 +20,9 @@ func _on_portal_body_entered(body):
 
 		levelLoader.currentIndex += 1
 		fader.fadeToScene(levelLoader.getPath())
+
+		for node in get_tree().get_nodes_in_group("entities"):
+			if !node.is_in_group("player"):
+				node.currentState = body.STATE.REST
+				node.animations.stop()
+				node.animations.set_frame(0)

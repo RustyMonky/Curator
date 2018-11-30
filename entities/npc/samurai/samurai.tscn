@@ -13,7 +13,7 @@ extents = Vector2( 3.95, 8.14375 )
 custom_solver_bias = 0.0
 radius = 50.0
 
-[node name="samurai" type="KinematicBody2D" groups=[
+[node name="samurai" type="KinematicBody2D" index="0" groups=[
 "entities",
 "samurai",
 ]]
