@@ -78,6 +78,9 @@ func setText(textArray):
 func showNextText():
 	currentTextIndex += 1
 	textLabel.visible_characters = 0
+
+	if currentTextIndex > currentTextArray.size() - 1:
+		return
 	textLabel.text = currentTextArray[currentTextIndex]
 
 # takeDamage

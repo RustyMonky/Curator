@@ -46,6 +46,8 @@ func _input(event):
 					canvas.resetText()
 				else:
 					canvas.showNextText()
+			elif event.is_action_pressed("ui_accept") && !canvas.textLabel.percent_visible == 1:
+				canvas.textLabel.percent_visible = 0.99
 
 func _process(delta):
 	if currentState == STATE.MOVING || currentState == STATE.REST:

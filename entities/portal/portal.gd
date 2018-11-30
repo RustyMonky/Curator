@@ -1,5 +1,7 @@
 extends Area2D
 
+onready var collider = $portalShape
+
 onready var tween = $portalTween
 
 func _ready():
@@ -10,5 +12,6 @@ func _ready():
 
 func _on_portal_body_entered(body):
 	if body.is_in_group("player"):
+		collider.disabled = true
 		levelLoader.currentIndex += 1
 		fader.fadeToScene(levelLoader.getPath())

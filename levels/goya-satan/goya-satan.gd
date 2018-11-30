@@ -9,6 +9,7 @@ func _ready():
 func _process(delta):
 	if playerInstance.currentState != playerInstance.STATE.TEXT && !startEvent:
 		startEvent = true
+		complete = true
 		nav.add_child(demonInstance)
 		demonInstance.position = Vector2(paintingSize.x / 2, paintingSize.y / 2)
 		demonInstance.setNav(nav)

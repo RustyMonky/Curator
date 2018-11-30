@@ -4,9 +4,7 @@ var currentIndex = 0
 
 onready var levels = [
 	"goya-satan",
-	#"kanagawa-wave",
 	"sekigahara",
-	#"starry-night",
 	"the-scream"
 ]
 
@@ -15,6 +13,7 @@ onready var loadedLevels = []
 func _ready():
 	while loadedLevels.size() < levels.size():
 		appendNextLevel()
+	loadedLevels.push_front("kanagawa-wave")
 
 # appendNextLevel
 # Adds next unique level to loaded levels array
