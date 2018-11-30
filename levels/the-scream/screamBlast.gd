@@ -30,8 +30,9 @@ func dissipate():
 	tween.start()
 
 func _physics_process(delta):
-	self.scale.x += 0.05
-	self.scale.y += 0.05
+	if self.scale.x < 10 || self.scale.y < 10:
+		self.scale.x += 0.05
+		self.scale.y += 0.05
 
 	self.global_position += self.direction.normalized() * SPEED * delta
 

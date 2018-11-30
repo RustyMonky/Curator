@@ -14,7 +14,7 @@ func _ready():
 	paintingSize = painting.get_texture().get_size()
 
 	self.add_child(playerInstance)
-	playerInstance.position = Vector2(16, paintingSize.y - 16)
+	playerInstance.position = Vector2(16, (paintingSize.y * textureScale) - 16)
 
 	set_process(true)
 

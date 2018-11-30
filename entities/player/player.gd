@@ -15,6 +15,7 @@ var currentAnimation = "walkSwordSide"
 var currentState = STATE.TEXT
 var direction = Vector2(0, 0)
 var isInvulerable = false
+var preventInput = false
 
 func _ready():
 	animator.set_autoplay("false")
@@ -23,6 +24,9 @@ func _ready():
 	set_process_input(true)
 
 func _input(event):
+	if preventInput:
+		return
+
 	match (currentState):
 		STATE.REST:
 			if event.is_action_pressed("ui_accept"):
@@ -50,13 +54,15 @@ func _input(event):
 				canvas.textLabel.percent_visible = 0.99
 
 func _process(delta):
+	if preventInput:
+		return
+
 	if currentState == STATE.MOVING || currentState == STATE.REST:
 		if Input.is_action_pressed("ui_up"):
 			self.direction = Vector2(0, -1)
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_down"):
 			self.direction = Vector2(0, 1)
-			#currentAnimation = "walkDown"
 			moveSelf(delta)
 		elif Input.is_action_pressed("ui_left"):
 			self.direction = Vector2(-1, 0)
@@ -116,9 +122,9 @@ func _on_playerAnimator_animation_finished(anim_name):
 
 func _on_playerAnimations_animation_finished():
 	if currentState == STATE.HURT || currentState == STATE.ATTACK:
-		currentAnimation = "walkSwordSide"
 		currentState = STATE.REST
-		playerAnimations.play(currentAnimation)
+		playerAnimations.stop()
+		playerAnimations.set_frame(0)
 	elif currentState == STATE.DEAD:
 		fader.fadeToScene("res://levels/gameover/gameover.tscn")
 

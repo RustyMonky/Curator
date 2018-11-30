@@ -12,6 +12,11 @@ func _ready():
 
 func _on_portal_body_entered(body):
 	if body.is_in_group("player"):
+		# Disable collisions, prevent inputs, stop animations, and hide the helper arrow
 		collider.disabled = true
+		body.preventInput = true
+		body.playerAnimations.stop()
+		body.arrow.hide()
+
 		levelLoader.currentIndex += 1
 		fader.fadeToScene(levelLoader.getPath())

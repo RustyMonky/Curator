@@ -45,10 +45,12 @@ func _physics_process(delta):
 							setTarget(redSamuraiGroup.front())
 
 		else:
-			# Determine if animation horizontal flip is required
-			if animations.flip_h == true:
+			# Determine if animations and ray horizontal rotation is required
+			if navPointsArray[1].x < self.position.x:
+				animations.flip_h = true
 				ray.rotation_degrees = 180
 			else:
+				animations.flip_h = false
 				ray.rotation_degrees = 0
 
 			animations.play("samuraiWalk")

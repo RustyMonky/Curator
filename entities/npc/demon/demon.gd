@@ -1,6 +1,6 @@
 extends "res://entities/npc/npc.gd"
 
-const SPEED = 32
+const SPEED = 48
 
 onready var animationPlayer = $demonPlayer
 onready var animations = $demonAnimations
@@ -8,6 +8,7 @@ onready var collider = $demonShape
 onready var player = get_parent().get_parent().get_node("player")
 onready var ray = $demonRay
 onready var timer = $demonDelay
+onready var tween = $deathTween
 
 var navPointsArray = []
 
@@ -73,7 +74,8 @@ func _on_demonAnimations_animation_finished():
 		animations.set_frame(0)
 		timer.start()
 	elif currentState == STATE.DEAD:
-		self.queue_free()
+		tween.interpolate_property(self, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+		tween.start()
 
 func _on_demonAnimations_frame_changed():
 	# Determines if player stands close enough to demon's attack animation to take damage
@@ -88,3 +90,7 @@ func _on_demonDelay_timeout():
 	if currentState == STATE.REST:
 		currentState = STATE.MOVE
 		animations.play()
+
+func _on_deathTween_tween_completed(object, key):
+	if currentState == STATE.DEAD:
+		self.queue_free()
