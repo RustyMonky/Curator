@@ -11,6 +11,7 @@ onready var sfx = $demonSfx
 onready var timer = $demonDelay
 onready var tween = $deathTween
 
+var deathSound = load("res://assets/sfx/demonDeath.wav")
 var hitSound = load("res://assets/sfx/demonGrunt.wav")
 var navPointsArray = []
 
@@ -61,6 +62,8 @@ func takeDamage():
 		collider.disabled = true
 		animations.set_animation("demonDeath")
 		animations.play()
+		sfx.stream = deathSound
+		sfx.play()
 	else:
 		sfx.stream = hitSound
 		sfx.play()

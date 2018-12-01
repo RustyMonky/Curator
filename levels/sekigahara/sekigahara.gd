@@ -78,4 +78,6 @@ func _process(delta):
 		return
 	elif isLevelComplete():
 		complete = true
+		for samurai in get_tree().get_nodes_in_group("samurai"):
+			samurai.currentState = samurai.STATE.REST
 		openPortal()

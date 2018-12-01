@@ -3,6 +3,7 @@ extends "res://entities/npc/npc.gd"
 const SPEED = 24
 
 onready var animations = $samuraiAnimations
+onready var collider = $samuraiCollider
 onready var delayTimer = $samuraiAttackDelay
 onready var sceneParent = get_parent().get_parent()
 onready var ray = $samuraiRay
@@ -97,6 +98,8 @@ func _physics_process(delta):
 				animations.play()
 				sfx.stream = swordSound
 				sfx.play()
+	elif currentState == STATE.DEAD:
+		return
 
 # setTarget
 # Sets the target and a weak reference to it for future freed instances
@@ -128,11 +131,13 @@ func setWait():
 func takeDamage():
 	hp -= 1
 
+	sfx.stream = hitSound
+	sfx.play()
+
 	if hp <= 0:
+		currentState = STATE.DEAD
 		self.queue_free()
 	else:
-		sfx.stream = hitSound
-		sfx.play()
 		currentState = STATE.HURT
 		animations.play("samuraiHurt")
 
