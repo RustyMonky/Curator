@@ -6,9 +6,12 @@ onready var animations = $samuraiAnimations
 onready var delayTimer = $samuraiAttackDelay
 onready var sceneParent = get_parent().get_parent()
 onready var ray = $samuraiRay
+onready var sfx = $samuraiSfx
 
+var hitSound = load("res://assets/sfx/fightGrunt.wav")
 var navPointsArray = []
 var selfIndex
+var swordSound = load("res://assets/sfx/swordSwish.wav")
 var target = null
 var targetRef = null
 var team = null
@@ -92,6 +95,8 @@ func _physics_process(delta):
 				currentState = STATE.ATTACK
 				animations.set_animation("samuraiSword")
 				animations.play()
+				sfx.stream = swordSound
+				sfx.play()
 
 # setTarget
 # Sets the target and a weak reference to it for future freed instances
@@ -126,6 +131,8 @@ func takeDamage():
 	if hp <= 0:
 		self.queue_free()
 	else:
+		sfx.stream = hitSound
+		sfx.play()
 		currentState = STATE.HURT
 		animations.play("samuraiHurt")
 

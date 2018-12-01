@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/demonGrunt.wav-19648875340b972c5d64aec91515f01d.sample"
+
+[deps]
+
+source_file="res://assets/sfx/demonGrunt.wav"
+dest_files=[ "res://.import/demonGrunt.wav-19648875340b972c5d64aec91515f01d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

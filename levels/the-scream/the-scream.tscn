@@ -68,6 +68,15 @@ autoplay = true
 mix_target = 0
 bus = "Master"
 
+[node name="screamSfx" type="AudioStreamPlayer" parent="." index="4"]
+
+stream = null
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
 [connection signal="timeout" from="screamDelay" to="." method="_on_screamDelay_timeout"]
 
 

@@ -2,7 +2,9 @@ extends "res://levels/level.gd"
 
 onready var delayTimer = $screamDelay
 onready var nav = $screamNav
+onready var sfx = $screamSfx
 
+var screamSound = load("res://assets/sfx/bansheeScream.wav")
 var screamSwitch = null
 
 func _ready():
@@ -37,6 +39,8 @@ func spawnBlast():
 	blastInstance.position = Vector2(320 * textureScale, 465 * textureScale)
 	blastInstance.add_to_group("blast")
 	nav.add_child(blastInstance)
+	sfx.stream = screamSound
+	sfx.play()
 
 func _input(event):
 	if event.is_action_pressed("ui_accept") && playerInstance.currentState != playerInstance.STATE.TEXT && !startEvent:

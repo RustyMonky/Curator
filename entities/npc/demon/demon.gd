@@ -7,9 +7,11 @@ onready var animations = $demonAnimations
 onready var collider = $demonShape
 onready var player = get_parent().get_parent().get_node("player")
 onready var ray = $demonRay
+onready var sfx = $demonSfx
 onready var timer = $demonDelay
 onready var tween = $deathTween
 
+var hitSound = load("res://assets/sfx/demonGrunt.wav")
 var navPointsArray = []
 
 func _ready():
@@ -60,6 +62,8 @@ func takeDamage():
 		animations.set_animation("demonDeath")
 		animations.play()
 	else:
+		sfx.stream = hitSound
+		sfx.play()
 		currentState = STATE.HURT
 		animations.play("demonHurt")
 		animationPlayer.play("hurt")

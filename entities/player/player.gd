@@ -10,12 +10,15 @@ onready var canvas = $canvas
 onready var collisionPoly = $playerPolygon
 onready var playerAnimations = $playerAnimations
 onready var ray = $playerRay
+onready var sfx = $playerSfx
 
 var currentAnimation = "walkSwordSide"
 var currentState = STATE.TEXT
 var direction = Vector2(0, 0)
+var hitSound = load("res://assets/sfx/fleshHit.wav")
 var isInvulerable = false
 var preventInput = false
+var swordSound = load("res://assets/sfx/swordSwish.wav")
 
 func _ready():
 	animator.set_autoplay("false")
@@ -32,6 +35,8 @@ func _input(event):
 			if event.is_action_pressed("ui_accept"):
 				currentState = STATE.ATTACK
 				playerAnimations.play("sword")
+				sfx.stream = swordSound
+				sfx.play()
 
 		STATE.MOVING:
 			if event.is_action_released("ui_up") || event.is_action_released("ui_down") || event.is_action_released("ui_left") || event.is_action_released("ui_right"):
@@ -42,6 +47,8 @@ func _input(event):
 			elif event.is_action_pressed("ui_accept"):
 				currentState = STATE.ATTACK
 				playerAnimations.play("sword")
+				sfx.stream = swordSound
+				sfx.play()
 
 		STATE.TEXT:
 			if event.is_action_pressed("ui_accept") && canvas.textLabel.percent_visible == 1:
@@ -107,6 +114,8 @@ func takeDamage():
 		playerAnimations.play("death")
 	else:
 		animator.play("invulnerabilityFrames")
+		sfx.stream = hitSound
+		sfx.play()
 		isInvulerable = true
 		currentAnimation = "hurt"
 		currentState = STATE.HURT

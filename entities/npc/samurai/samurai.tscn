@@ -13,9 +13,9 @@ extents = Vector2( 3.95, 8.14375 )
 custom_solver_bias = 0.0
 radius = 50.0
 
-[node name="samurai" type="KinematicBody2D" index="0" groups=[
-"entities",
+[node name="samurai" type="KinematicBody2D" groups=[
 "samurai",
+"entities",
 ]]
 
 scale = Vector2( 1.5, 1.5 )
@@ -67,6 +67,15 @@ process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
+
+[node name="samuraiSfx" type="AudioStreamPlayer" parent="." index="5"]
+
+stream = null
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
 
 [connection signal="animation_finished" from="samuraiAnimations" to="." method="_on_samuraiAnimations_animation_finished"]
 

@@ -66,6 +66,15 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 
+[node name="demonSfx" type="AudioStreamPlayer" parent="." index="6"]
+
+stream = null
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
 [connection signal="animation_finished" from="demonAnimations" to="." method="_on_demonAnimations_animation_finished"]
 
 [connection signal="frame_changed" from="demonAnimations" to="." method="_on_demonAnimations_frame_changed"]
